@@ -1,0 +1,19 @@
+{
+  "name": "cursor-mcp-plugin",
+  "version": "1.0.0",
+  "description": "Cursor MCP Plugin for Figma",
+  "main": "dist/code.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch",
+    "dev": "webpack --mode development"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.99.0",
+    "@types/node": "^20.0.0",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.0.0",
+    "webpack": "^5.0.0",
+    "webpack-cli": "^5.0.0"
+  }
+}

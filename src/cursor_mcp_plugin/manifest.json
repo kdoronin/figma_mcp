@@ -2,7 +2,7 @@
   "name": "Cursor MCP Plugin",
   "id": "cursor-mcp-plugin",
   "api": "1.0.0",
-  "main": "code.js",
+  "main": "dist/code.js",
   "ui": "ui.html",
   "editorType": [
     "figma",
