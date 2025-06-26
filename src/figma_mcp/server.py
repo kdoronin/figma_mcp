@@ -4,21 +4,27 @@ import asyncio
 import json
 import logging
 import sys
+import os
 from typing import Any, Dict, List, Optional
 import argparse
+
+# Add project root to Python path for imports
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
 
 from fastmcp import FastMCP
 from pydantic import Field
 
-from .websocket_client import FigmaWebSocketClient
-from .types import (
-    FigmaCommand, GetNodeInfoParams, GetNodesInfoParams, 
+from src.figma_mcp.websocket_client import FigmaWebSocketClient
+from src.figma_mcp.figma_types import (
+    FigmaCommand, GetNodeInfoParams, GetNodesInfoParams, GetNodeChildrenParams,
     ScanTextNodesParams, SetMultipleTextContentsParams, GetAnnotationsParams,
     ScanNodesByTypesParams,
     GetInstanceOverridesParams, ExportNodeAsImageParams,
     GetReactionsParams, SetDefaultConnectorParams, CreateConnectionsParams
 )
-from .utils import process_figma_node_response, format_node_info
+from src.figma_mcp.utils import process_figma_node_response, format_node_info
 
 
 # Setup logging
@@ -123,6 +129,20 @@ async def get_nodes_info(node_ids: List[str] = Field(description="List of node I
         return json.dumps(filtered_result, indent=2)
     except Exception as e:
         return f"Error getting nodes info: {str(e)}"
+
+
+@mcp.tool()
+async def get_node_children(node_id: str = Field(description="The ID of the node to get all children IDs from")) -> str:
+    """Get all children node IDs from a specified node, including all nested levels."""
+    try:
+        client = await get_figma_client()
+        result = await client.send_command(
+            FigmaCommand.GET_NODE_CHILDREN, 
+            {"nodeId": node_id}
+        )
+        return json.dumps(result, indent=2)
+    except Exception as e:
+        return f"Error getting node children: {str(e)}"
 
 
 @mcp.tool()

@@ -12,6 +12,7 @@ class FigmaCommand(str, Enum):
     GET_SELECTION = "get_selection"
     GET_NODE_INFO = "get_node_info"
     GET_NODES_INFO = "get_nodes_info"
+    GET_NODE_CHILDREN = "get_node_children"
     READ_MY_DESIGN = "read_my_design"
     DELETE_NODE = "delete_node"
     DELETE_MULTIPLE_NODES = "delete_multiple_nodes"
@@ -215,6 +216,11 @@ class GetNodeInfoParams(BaseModel):
 class GetNodesInfoParams(BaseModel):
     """Parameters for get_nodes_info command."""
     nodeIds: List[str]
+
+
+class GetNodeChildrenParams(BaseModel):
+    """Parameters for get_node_children command."""
+    nodeId: str
 
 
 class ReadMyDesignParams(BaseModel):
