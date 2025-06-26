@@ -2,7 +2,7 @@
 
 from typing import Any, Dict, List, Optional, Union
 import json
-from .types import rgba_to_hex
+from src.figma_mcp.figma_types import rgba_to_hex
 
 
 def filter_figma_node(node: Any) -> Dict[str, Any]:

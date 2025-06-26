@@ -12,6 +12,7 @@ export const COMMANDS = {
   GET_SELECTION: 'get_selection',
   GET_NODE_INFO: 'get_node_info',
   GET_NODES_INFO: 'get_nodes_info',
+  GET_NODE_CHILDREN: 'get_node_children',
   READ_MY_DESIGN: 'read_my_design',
   
   // Create commands

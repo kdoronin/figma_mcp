@@ -6,7 +6,7 @@ import { COMMANDS } from '../constants';
 import { CommandParams, CommandResult } from '../types';
 
 // Import document commands
-import { getDocumentInfo, getSelection, getNodeInfo } from '../commands/document';
+import { getDocumentInfo, getSelection, getNodeInfo, getNodeChildren, getInstanceOverrides } from '../commands/document';
 
 // Import create commands  
 import { createRectangle, createFrame } from '../commands/create';
@@ -32,6 +32,16 @@ export async function handleCommand(command: string, params: CommandParams): Pro
         throw new Error(`Failed to get node info for ID: ${params.nodeId}`);
       }
       return nodeInfo;
+    
+    case COMMANDS.GET_NODE_CHILDREN:
+      if (!params || !params.nodeId) {
+        throw new Error("Missing nodeId parameter");
+      }
+      const childrenIds = await getNodeChildren(params.nodeId);
+      return childrenIds;
+    
+    case COMMANDS.GET_INSTANCE_OVERRIDES:
+      return await getInstanceOverrides(params?.instanceNodeId);
     
     // Create commands
     case COMMANDS.CREATE_RECTANGLE:
