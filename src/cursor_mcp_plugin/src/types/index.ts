@@ -88,3 +88,19 @@ export interface InstanceOverrideData {
   sourceInstanceId: string;
   targetNodeIds: string[];
 }
+
+export interface ExportNodeAsImageParams {
+  nodeId: string;
+  format?: string;
+  scale?: number;
+}
+
+export interface ExportNodeAsImageResult {
+  nodeId: string;
+  format: string;
+  scale: number;
+  mimeType: string;
+  imageData: string;
+  success: boolean;
+  timestamp: number;
+}

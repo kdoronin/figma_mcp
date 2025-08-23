@@ -262,8 +262,10 @@ class SetInstanceOverridesParams(BaseModel):
 class ExportNodeAsImageParams(BaseModel):
     """Parameters for export_node_as_image command."""
     nodeId: str
+    outputPath: str  # Required: full absolute path to output directory
     format: Optional[ExportFormat] = ExportFormat.PNG
     scale: Optional[float] = 1.0
+    filename: Optional[str] = None
 
 
 class JoinParams(BaseModel):

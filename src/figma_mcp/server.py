@@ -13,6 +13,8 @@ project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(_
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
+
+
 from fastmcp import FastMCP
 from pydantic import Field
 
@@ -186,13 +188,35 @@ async def get_instance_overrides(
 @mcp.tool()
 async def export_node_as_image(
     node_id: str = Field(description="The ID of the node to export"),
+    output_path: str = Field(description="REQUIRED: Full absolute path to output directory (e.g., '/Users/username/project/assets/images')"),
     format: str = Field(default="PNG", description="Export format (PNG, JPG, SVG, PDF)"),
-    scale: float = Field(default=1.0, description="Export scale factor")
+    scale: float = Field(default=1.0, description="Export scale factor"),
+    filename: Optional[str] = Field(default=None, description="Custom filename (without extension)")
 ) -> str:
-    """Export a node as an image."""
+    """Export a node as an image and save to file system.
+    
+    IMPORTANT: Always specify a full absolute path for output_path parameter. 
+    This ensures images are saved exactly where you intend them to be.
+    
+    Example: output_path='/Users/username/Documents/my_project/assets/images'
+    """
     try:
+        import os
+        from src.figma_mcp.file_manager import ImageFileManager, generate_filename_from_node_id
+        
+        # Validate output path
+        if not output_path or not os.path.isabs(output_path):
+            raise ValueError("output_path must be a full absolute path (e.g., '/Users/username/project/assets/images')")
+        
+        # Set values
+        actual_output_path = output_path
+        actual_filename = filename or generate_filename_from_node_id(node_id, format)
+        
+        logger.info(f"Exporting node {node_id} as {format} to {actual_output_path}/{actual_filename}")
+        
+        # Get image data from Figma
         client = await get_figma_client()
-        result = await client.send_command(
+        figma_result = await client.send_command(
             FigmaCommand.EXPORT_NODE_AS_IMAGE, 
             {
                 "nodeId": node_id,
@@ -200,9 +224,26 @@ async def export_node_as_image(
                 "scale": scale
             }
         )
+        
+        # Process and save the exported image
+        result = ImageFileManager.process_figma_export_result(
+            export_result=figma_result,
+            output_path=actual_output_path,
+            filename=actual_filename,
+            node_id=node_id,
+            format_name=format,
+            scale=scale
+        )
+        
         return json.dumps(result, indent=2)
+        
     except Exception as e:
-        return f"Error exporting node as image: {str(e)}"
+        logger.error(f"Error in export_node_as_image: {e}")
+        return json.dumps({
+            "success": False,
+            "error": str(e),
+            "message": f"Failed to export and save image: {str(e)}"
+        }, indent=2)
 
 
 @mcp.tool()
