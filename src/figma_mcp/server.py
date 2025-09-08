@@ -21,10 +21,8 @@ from pydantic import Field
 from src.figma_mcp.websocket_client import FigmaWebSocketClient
 from src.figma_mcp.figma_types import (
     FigmaCommand, GetNodeInfoParams, GetNodesInfoParams, GetNodeChildrenParams,
-    ScanTextNodesParams, SetMultipleTextContentsParams, GetAnnotationsParams,
-    ScanNodesByTypesParams,
-    GetInstanceOverridesParams, ExportNodeAsImageParams,
-    GetReactionsParams, SetDefaultConnectorParams, CreateConnectionsParams
+    ScanTextNodesParams, GetAnnotationsParams, ScanNodesByTypesParams,
+    GetInstanceOverridesParams, ExportNodeAsImageParams, GetReactionsParams
 )
 from src.figma_mcp.utils import process_figma_node_response, format_node_info
 
