@@ -13,6 +13,37 @@ interface FilteredNode {
   characters?: string;
   style?: any;
   children?: FilteredNode[];
+  
+  // Layout positioning properties
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  
+  // Transform matrices
+  relativeTransform?: any;
+  absoluteTransform?: any;
+  absoluteRenderBounds?: any;
+  
+  // Layout constraints
+  constraints?: any;
+  
+  // Auto-layout properties
+  layoutAlign?: 'MIN' | 'CENTER' | 'MAX' | 'STRETCH' | 'INHERIT';
+  layoutGrow?: number;
+  layoutPositioning?: 'AUTO' | 'ABSOLUTE';
+  
+  // Size constraints
+  minWidth?: number | null;
+  maxWidth?: number | null;
+  minHeight?: number | null;
+  maxHeight?: number | null;
+  
+  // Grid layout properties
+  gridRowAnchorIndex?: number;
+  gridColumnAnchorIndex?: number;
+  gridRowSpan?: number;
+  gridColumnSpan?: number;
 }
 
 export function filterFigmaNode(node: any): FilteredNode | null {
@@ -86,6 +117,88 @@ export function filterFigmaNode(node: any): FilteredNode | null {
       letterSpacing: node.style.letterSpacing,
       lineHeightPx: node.style.lineHeightPx,
     };
+  }
+
+  // Layout positioning properties
+  if (node.x !== undefined) {
+    filtered.x = node.x;
+  }
+
+  if (node.y !== undefined) {
+    filtered.y = node.y;
+  }
+
+  if (node.width !== undefined) {
+    filtered.width = node.width;
+  }
+
+  if (node.height !== undefined) {
+    filtered.height = node.height;
+  }
+
+  // Transform matrices
+  if (node.relativeTransform) {
+    filtered.relativeTransform = node.relativeTransform;
+  }
+
+  if (node.absoluteTransform) {
+    filtered.absoluteTransform = node.absoluteTransform;
+  }
+
+  if (node.absoluteRenderBounds) {
+    filtered.absoluteRenderBounds = node.absoluteRenderBounds;
+  }
+
+  // Layout constraints
+  if (node.constraints) {
+    filtered.constraints = node.constraints;
+  }
+
+  // Auto-layout properties
+  if (node.layoutAlign) {
+    filtered.layoutAlign = node.layoutAlign;
+  }
+
+  if (node.layoutGrow !== undefined) {
+    filtered.layoutGrow = node.layoutGrow;
+  }
+
+  if (node.layoutPositioning) {
+    filtered.layoutPositioning = node.layoutPositioning;
+  }
+
+  // Size constraints
+  if (node.minWidth !== undefined) {
+    filtered.minWidth = node.minWidth;
+  }
+
+  if (node.maxWidth !== undefined) {
+    filtered.maxWidth = node.maxWidth;
+  }
+
+  if (node.minHeight !== undefined) {
+    filtered.minHeight = node.minHeight;
+  }
+
+  if (node.maxHeight !== undefined) {
+    filtered.maxHeight = node.maxHeight;
+  }
+
+  // Grid layout properties
+  if (node.gridRowAnchorIndex !== undefined) {
+    filtered.gridRowAnchorIndex = node.gridRowAnchorIndex;
+  }
+
+  if (node.gridColumnAnchorIndex !== undefined) {
+    filtered.gridColumnAnchorIndex = node.gridColumnAnchorIndex;
+  }
+
+  if (node.gridRowSpan !== undefined) {
+    filtered.gridRowSpan = node.gridRowSpan;
+  }
+
+  if (node.gridColumnSpan !== undefined) {
+    filtered.gridColumnSpan = node.gridColumnSpan;
   }
 
   if (node.children) {
